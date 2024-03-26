@@ -1,13 +1,21 @@
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class GenerateInfoFiles {
 
     private static final int NUMBER_OF_SALES = 50;
     private static final int NUMBER_OF_PRODUCTS = 50;
     private static final int NUMBER_OF_SALES_MAN = 50;
+    // for random numbers
+    private static final int MIN_NUMBER = 1;
 
-    // array with 20 products
+    // array with 20 ramdom products
     private static final String[] PRODUCTS = {
             "T-shirt", "Jeans", "Shoes", "Scarf", "Hat", "Sunglasses", "Watch", "Bag", "Gloves", "Dress",
             "Sweater", "Skirt", "Jacket", "Boots", "Socks", "Belt", "Suit", "Blouse", "Tie", "Coat"
@@ -19,22 +27,24 @@ public class GenerateInfoFiles {
     private static final String[] SURNAMES = { "Smith", "Johnson", "Williams", "Jones", "Brown", "Davis", "Miller",
             "Wilson", "Moore", "Taylor" };
 
-    // for random numbers
-    private static final int MIN_NUMBER = 1;
-
+            
     public static void main(String[] args) {
 
         try {
-            // CreateSalesMenFile
-            String vendor_name = "John Cena";
-            long id_name = 12345;
-            createSalesMenFile(NUMBER_OF_SALES, vendor_name, id_name);
 
             // createProductsFile
             createProductsFile(NUMBER_OF_PRODUCTS);
 
             // createSalesManInfoFile
             createSalesManInfoFile(NUMBER_OF_SALES_MAN);
+
+            // CreateSalesMenFile
+            // get a random vendor name and id
+            String[] vendor = getRandomVendor();
+
+            String vendor_name = vendor[2];
+            long id_name = Long.parseLong(vendor[0]);
+            createSalesMenFile(NUMBER_OF_SALES, vendor_name, id_name);
 
             System.err.println("Files generated successfully");
 
@@ -117,6 +127,26 @@ public class GenerateInfoFiles {
         String vendor_lastname = SURNAMES[getRandomNumber(SURNAMES.length) - 1];
 
         return document_type + ";" + document_number + ";" + vendor_name + ";" + vendor_lastname;
+    }
+
+    private static String[] getRandomVendor() throws FileNotFoundException, IOException {
+        // This method returns an array with 2 values: vendor name and vendor id
+        // Get the valuels from  the "vendors.txt" file
+        List<String[]> vendors = new ArrayList<>();
+
+        String filePath = "files/vendors.txt";
+
+        // read the file
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                vendors.add(line.split(";")); // Split using ";" char
+            }
+        }
+
+        String[] randomVendor = vendors.get(getRandomNumber(vendors.size()));
+
+        return randomVendor;
     }
 
     private static int getRandomNumber(int max_number) {
