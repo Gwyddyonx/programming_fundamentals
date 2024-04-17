@@ -5,7 +5,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class GenerateInfoFiles {
 
@@ -43,7 +42,7 @@ public class GenerateInfoFiles {
             String[] vendor = getRandomVendor();
 
             String vendor_name = vendor[2];
-            long id_name = Long.parseLong(vendor[0]);
+            long id_name = Long.parseLong(vendor[1]);
             createSalesMenFile(NUMBER_OF_SALES, vendor_name, id_name);
 
             System.err.println("Files generated successfully");
@@ -56,7 +55,7 @@ public class GenerateInfoFiles {
 
     public static void createSalesMenFile(int randomSalesCount, String name, long id) throws IOException {
 
-        String fileName = name.replaceAll("\\s", "") + "_sales.txt";
+        String fileName = "sales.txt";
         fileName = "files/" + fileName;
 
         try (FileWriter writer = new FileWriter(fileName)) {
