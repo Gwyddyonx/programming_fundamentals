@@ -7,13 +7,6 @@ public class Main {
         try {
 
             // Generate Sales Report
-            /**
-             * TODO: Review this integration
-             * This function generates the files fine, 
-             * but there is only one salesperson left in the report, 
-             * because the file generation class only generates pseudo sales 
-             * for a single salesperson
-            */
             generateSalesReport();
 
             // Generate Product Sales Report
